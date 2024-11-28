@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="index.css">
-    <link rel="stylesheet" href="font.css">
+    <link rel="stylesheet" href="styles/index.css">
+    <link rel="stylesheet" href="styles/font.css">
     <title>Blog</title>
 </head>
 
@@ -65,7 +65,7 @@
             </div>
 
             <div class="post">
-                <?php echo 'Query e visualizzazione con ciclo for tutti i post';?>
+                <?php echo '<p>Query e visualizzazione con ciclo for tutti i post</p>';?>
             </div>
 
         </div>
