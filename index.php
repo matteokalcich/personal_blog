@@ -23,7 +23,7 @@
 
             <div class="welcome">
                 <h2>Ciao, benvenuto nel mio blog personale, spero ti piaccia</h2>
-                <button id="loginBtn" type="button">Login</button>
+                <button id="loginBtn" name="login" type="button">Login</button>
                 <!-- Nota: Per il login con PHP, puoi usare if(isset($_POST['loginBtn'])) per controllare l'invio del bottone -->
             </div>
 
