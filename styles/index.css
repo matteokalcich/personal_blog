@@ -1,0 +1,13 @@
+.parteAlta{
+    display: flex;
+    flex-direction: row;
+    width: 99vw;
+    height: 20vh;
+    background-color: red;
+}
+
+#logo{
+
+    height: auto;
+    width: auto;
+}
