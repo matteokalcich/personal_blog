@@ -25,7 +25,7 @@
 
             <div class="welcome">
                 <h2>Ciao, benvenuto nel mio blog personale, spero ti piaccia</h2>
-                <button id="loginBtn" name="login" type="button"><a href="./login.php">Login</a></button>
+                <a href="./login.php"><button id="loginBtn" name="login" type="button">Login</button></a>
 
             </div>
 
@@ -49,9 +49,9 @@
 
             <div class="filtraAnno">
                 
-                <button class="allDivFiltraAnno firstLastBtn"><p>PRIMO</p><p>>></p></button>
+                <button class="allDivFiltraAnno firstLastBtn"><p>PRIMO</p><p><<</p></button>
                 
-                <button class="allDivFiltraAnno afterFirstBeforeLastBtn"><p>Precedente</p><p>> <?php echo 'es: 2020';?></p></button>
+                <button class="allDivFiltraAnno afterFirstBeforeLastBtn"><p>Precedente</p><p>< <?php echo 'es: 2020';?></p></button>
                 
                 <div class="allDivFiltraAnno annoCorrente">
 
@@ -59,9 +59,9 @@
 
                 </div>
                 
-                <button class="allDivFiltraAnno afterFirstBeforeLastBtn"><p>Successivo</p><p>> <?php echo 'es: 2022';?></p></button>
+                <button class="allDivFiltraAnno afterFirstBeforeLastBtn"><p>Successivo</p><p><?php echo 'es: 2022';?> ></p></button>
                 
-                <button class="allDivFiltraAnno firstLastBtn"><p>PRIMO</p><p>>></p></button>
+                <button class="allDivFiltraAnno firstLastBtn"><p>ULTIMO</p><p>>></p></button>
 
 
             </div>
@@ -86,8 +86,8 @@
                     echo '<p>'.$a['dataCreazione'].'</p><h3>'.$a['titoloPost'].'</h3>';
                     echo '</div>';
                     echo '<div class="corpoPostDB">';
-                    echo '<p>'.$a['descrizionePost'].'</p>';
                     echo '<a href="dettagliPost.php?idPostVisualizzare='.$a['idPost'].'"><img class="immaginePostDB" src="'.$a['pathFotoPost'].'" alt="Immagine Post">';
+                    echo '<p>'.$a['descrizionePost'].'</p>';
                     echo '</div>';
                     echo '</div>';
 
