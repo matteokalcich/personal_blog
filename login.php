@@ -1,21 +1,34 @@
 <?php
 session_start();
 
-$_SESSION['pswAdmin'] = 'admin';
-$_SESSION['userAdmin'] = 'admin';
-
-
 
 if(isset($_POST['invia'])){
 
-    if($_POST['username'] != '' && $_POST['password'] != ''){
+    $c = mysqli_connect('localhost', 'root', '', 'blog_kalcich') or die('Errore di connessione');
 
-        if($_POST['username'] == $_SESSION['userAdmin'] && $_POST['password'] == $_SESSION['pswAdmin']){
+                $s = 'SELECT * FROM tUtente';
 
-            header("Location: index.php"); 
-            exit;
-        }
-    }
+                $r = mysqli_query($c,$s);
+
+                $n = mysqli_num_rows($r);
+
+                if($n == 0){
+
+
+                    return;
+                }
+
+                while($a=mysqli_fetch_array($r)) {
+
+                    if($_POST['username'] != '' && $_POST['password'] != ''){
+
+                        if($_POST['username'] == $a['userName'] && $_POST['password'] == $a['passw']){
+                
+                            header("Location: index.php"); 
+                            exit;
+                        }
+                    }
+                }
 }
 
 
@@ -52,6 +65,8 @@ if(isset($_POST['invia'])){
         <input type="text" name="username" placeholder="username" val="">
 
         <input type="password" name="password" placeholder="password" val="">
+
+        <input type="text" name="valore" val="">
 
         <button name="invia" type="submit">Login</button>
 
