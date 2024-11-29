@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Creato il: Nov 28, 2024 alle 12:58
+-- Creato il: Nov 29, 2024 alle 10:53
 -- Versione del server: 10.11.6-MariaDB-0+deb12u1
 -- Versione PHP: 8.2.24
 
@@ -47,6 +47,15 @@ CREATE TABLE `tPost` (
   `pathFotoPost` varchar(255) DEFAULT NULL,
   `dataEliminazionePost` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dump dei dati per la tabella `tPost`
+--
+
+INSERT INTO `tPost` (`idPost`, `titoloPost`, `descrizionePost`, `dataCreazione`, `pathFotoPost`, `dataEliminazionePost`) VALUES
+(1, 'Test', 'Post interessante e bello per il test', NULL, NULL, NULL),
+(2, '2Test', 'Secondo post per il testing php db', NULL, NULL, NULL),
+(3, '3Test', 'Terzo post per il testing php db', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -98,7 +107,7 @@ ALTER TABLE `tModificaPost`
 -- AUTO_INCREMENT per la tabella `tPost`
 --
 ALTER TABLE `tPost`
-  MODIFY `idPost` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idPost` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT per la tabella `tUtente`
