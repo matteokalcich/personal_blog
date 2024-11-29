@@ -1,0 +1,44 @@
+.paginaIntera{
+
+    justify-content: center;
+    align-items: center;
+}
+
+.secondaParte{
+
+    display: flex;
+    flex-direction: column;
+}
+
+.secondaParte_superiore{
+
+    display: flex;
+    flex-direction: row;
+}
+
+.secondaParte_centrale{
+
+    margin-top: 4vh;
+}
+
+.secondaParte_immagine{
+
+    justify-content: center;
+    align-items: center;
+
+}
+
+.secondaParte_immagine p{
+
+    margin-left: 20%;
+    margin-top: 4vh;
+}
+
+.immagineDettagliPostDB{
+
+    display: block; 
+    margin: 0 auto;
+    max-width: 100%; 
+    height: 30vh;
+
+}
