@@ -72,6 +72,24 @@ body{
     flex-direction: column;
 }
 
+.postDB{
+
+    display: flex;
+    flex-direction: column;
+}
+
+.headerPostDB{
+
+    display: flex;
+    flex-direction: row;
+}
+
+.corpoPostDB{
+
+    display: flex;
+    flex-direction: row;
+}
+
 .ricerca{
 
     display: flex;
@@ -113,6 +131,7 @@ body{
 
 footer{
 
+    display: none;
     position: absolute;
     bottom: 0;
 }

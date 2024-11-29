@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles/index.css">
     <link rel="stylesheet" href="styles/font.css">
+    <link rel="stylesheet" href="styles/link.css">
     <title>Blog</title>
+
 </head>
 
 <body>
@@ -23,7 +25,7 @@
 
             <div class="welcome">
                 <h2>Ciao, benvenuto nel mio blog personale, spero ti piaccia</h2>
-                <button id="loginBtn" name="login" type="button">Login</button>
+                <button id="loginBtn" name="login" type="button"><a href="login.php">Login</a></button>
                 <!-- Nota: Per il login con PHP, puoi usare if(isset($_POST['loginBtn'])) per controllare l'invio del bottone -->
             </div>
 
@@ -65,7 +67,30 @@
             </div>
 
             <div class="post">
-                <?php echo '<p>Query e visualizzazione con ciclo for tutti i post</p>';?>
+                <?php
+                
+                $c = mysqli_connect('localhost', 'quintae', 'Qu!nta', 'blog_kalcich') or die('Errore di connessione');
+
+                $s = 'SELECT * FROM tPost';
+
+                $r = mysqli_query($c,$s);
+
+                $n = mysqli_num_rows($r);
+
+                while($a=mysqli_fetch_array($r)) {
+
+                    echo '<div class="postDB">';
+                    echo '<div class="headerPostDB">';
+                    echo '<p>'.$a['dataCreazione'].'</p><h3>'.$a['titoloPost'].'</h3>';
+                    echo '</div>';
+                    echo '<div class="corpoPostDB">';
+                    echo '<p>'.$a['descrizionePost'].'</p>';
+                    echo '<img class="immaginePostDB" src="'.$a['pathFotoPost'].'" alt="Immagine Post">';
+                    echo '</div>';
+                    echo '</div>';
+                }
+                ?>
+                
             </div>
 
         </div>
