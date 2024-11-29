@@ -26,7 +26,7 @@
             <div class="welcome">
                 <h2>Ciao, benvenuto nel mio blog personale, spero ti piaccia</h2>
                 <button id="loginBtn" name="login" type="button"><a href="./login.php">Login</a></button>
-                <!-- Nota: Per il login con PHP, puoi usare if(isset($_POST['loginBtn'])) per controllare l'invio del bottone -->
+
             </div>
 
             <div class="introduzioneMioBlog">
@@ -66,10 +66,12 @@
 
             </div>
 
+            <a href=""></a>
+
             <div class="post">
                 <?php
                 
-                $c = mysqli_connect('localhost', 'quintae', 'Qu!nta', 'blog_kalcich') or die('Errore di connessione');
+                $c = mysqli_connect('localhost', 'root', '', 'blog_kalcich') or die('Errore di connessione');
 
                 $s = 'SELECT * FROM tPost';
 
@@ -85,9 +87,10 @@
                     echo '</div>';
                     echo '<div class="corpoPostDB">';
                     echo '<p>'.$a['descrizionePost'].'</p>';
-                    echo '<img class="immaginePostDB" src="'.$a['pathFotoPost'].'" alt="Immagine Post">';
+                    echo '<a href="dettagliPost.php?idPostVisualizzare='.$a['idPost'].'"><img class="immaginePostDB" src="'.$a['pathFotoPost'].'" alt="Immagine Post">';
                     echo '</div>';
                     echo '</div>';
+
                 }
                 ?>
 
