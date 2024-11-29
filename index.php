@@ -25,7 +25,7 @@
 
             <div class="welcome">
                 <h2>Ciao, benvenuto nel mio blog personale, spero ti piaccia</h2>
-                <button id="loginBtn" name="login" type="button"><a href="login.php">Login</a></button>
+                <button id="loginBtn" name="login" type="button"><a href="./login.php">Login</a></button>
                 <!-- Nota: Per il login con PHP, puoi usare if(isset($_POST['loginBtn'])) per controllare l'invio del bottone -->
             </div>
 
@@ -90,7 +90,7 @@
                     echo '</div>';
                 }
                 ?>
-                
+
             </div>
 
         </div>
