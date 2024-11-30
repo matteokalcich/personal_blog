@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Creato il: Nov 29, 2024 alle 10:53
--- Versione del server: 10.11.6-MariaDB-0+deb12u1
--- Versione PHP: 8.2.24
+-- Generation Time: Nov 30, 2024 at 08:37 AM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,7 +24,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `tModificaPost`
+-- Table structure for table `tModificaPost`
 --
 
 CREATE TABLE `tModificaPost` (
@@ -36,7 +36,7 @@ CREATE TABLE `tModificaPost` (
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `tPost`
+-- Table structure for table `tPost`
 --
 
 CREATE TABLE `tPost` (
@@ -48,19 +48,10 @@ CREATE TABLE `tPost` (
   `dataEliminazionePost` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dump dei dati per la tabella `tPost`
---
-
-INSERT INTO `tPost` (`idPost`, `titoloPost`, `descrizionePost`, `dataCreazione`, `pathFotoPost`, `dataEliminazionePost`) VALUES
-(1, 'Test', 'Post interessante e bello per il test', NULL, NULL, NULL),
-(2, '2Test', 'Secondo post per il testing php db', NULL, NULL, NULL),
-(3, '3Test', 'Terzo post per il testing php db', NULL, NULL, NULL);
-
 -- --------------------------------------------------------
 
 --
--- Struttura della tabella `tUtente`
+-- Table structure for table `tUtente`
 --
 
 CREATE TABLE `tUtente` (
@@ -70,57 +61,64 @@ CREATE TABLE `tUtente` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Indici per le tabelle scaricate
+-- Dumping data for table `tUtente`
+--
+
+INSERT INTO `tUtente` (`idUtente`, `userName`, `passw`) VALUES
+(1, 'matteo', '1234');
+
+--
+-- Indexes for dumped tables
 --
 
 --
--- Indici per le tabelle `tModificaPost`
+-- Indexes for table `tModificaPost`
 --
 ALTER TABLE `tModificaPost`
   ADD PRIMARY KEY (`idModifica`),
   ADD KEY `idPost` (`idPost`);
 
 --
--- Indici per le tabelle `tPost`
+-- Indexes for table `tPost`
 --
 ALTER TABLE `tPost`
   ADD PRIMARY KEY (`idPost`);
 
 --
--- Indici per le tabelle `tUtente`
+-- Indexes for table `tUtente`
 --
 ALTER TABLE `tUtente`
   ADD PRIMARY KEY (`idUtente`),
   ADD UNIQUE KEY `userName` (`userName`);
 
 --
--- AUTO_INCREMENT per le tabelle scaricate
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT per la tabella `tModificaPost`
+-- AUTO_INCREMENT for table `tModificaPost`
 --
 ALTER TABLE `tModificaPost`
   MODIFY `idModifica` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT per la tabella `tPost`
+-- AUTO_INCREMENT for table `tPost`
 --
 ALTER TABLE `tPost`
-  MODIFY `idPost` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `idPost` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT per la tabella `tUtente`
+-- AUTO_INCREMENT for table `tUtente`
 --
 ALTER TABLE `tUtente`
-  MODIFY `idUtente` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idUtente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- Limiti per le tabelle scaricate
+-- Constraints for dumped tables
 --
 
 --
--- Limiti per la tabella `tModificaPost`
+-- Constraints for table `tModificaPost`
 --
 ALTER TABLE `tModificaPost`
   ADD CONSTRAINT `tModificaPost_ibfk_1` FOREIGN KEY (`idPost`) REFERENCES `tPost` (`idPost`);
