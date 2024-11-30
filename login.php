@@ -24,7 +24,7 @@ if(isset($_POST['invia'])){
 
                         if($_POST['username'] == $a['userName'] && $_POST['password'] == $a['passw']){
                 
-                            header("Location: index.php"); 
+                            header('Location: backoffice.php?user='.$a['userName']); 
                             exit;
                         }
                     }
@@ -43,6 +43,7 @@ if(isset($_POST['invia'])){
     <title>Login</title>
     <link rel="stylesheet" href="styles/index.css">
     <link rel="stylesheet" href="styles/login.css">
+    <link rel="stylesheet" href="styles/font.css">
 </head>
 <body>
     
