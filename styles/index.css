@@ -57,7 +57,7 @@ body{
     gap: 17vw;
 }
 
-#loginBtn{
+.loginBtn{
 
     width: 10vw;
     height: 4vh;
