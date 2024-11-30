@@ -1,3 +1,15 @@
+<?php
+session_start();
+
+if(!isset($_SESSION['annoScelto'])){
+
+    $_SESSION['annoScelto'] = 2024;
+}
+
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -41,57 +53,171 @@
         <!-- Contenuto centrale della pagina -->
         <div class="centroPagina">
 
-            <div class="ricerca">
-                <p id="ricerca" >RICERCA</p>
+            <form method="post" class="ricerca">
+                <p id="ricerca">RICERCA</p>
                 <input type="text" name="parolaDaCercare" id="parolaDaCercare">
-                <button type="button" name="cerca" id="cercaBtn">CERCA</button>
-            </div>
+                <button type="submit" name="cerca" id="cercaBtn">CERCA</button>
+            </form>
 
-            <div class="filtraAnno">
+            <form method="post" class="filtraAnno">
                 
-                <button class="allDivFiltraAnno firstLastBtn"><p>PRIMO</p><p><<</p></button>
+                <button type="submit" name="primoPost" class="allDivFiltraAnno firstLastBtn"><p>PRIMO</p><p><<</p></button>
                 
-                <button class="allDivFiltraAnno afterFirstBeforeLastBtn"><p>Precedente</p><p>< <?php echo 'es: 2020';?></p></button>
+                <button type="submit" name="precedenteAnnoPost" class="allDivFiltraAnno afterFirstBeforeLastBtn"><p>Precedente</p><p>< <?php echo $_SESSION['annoScelto']-1;?></p></button>
                 
                 <div class="allDivFiltraAnno annoCorrente">
 
-                    <p><?php echo 'ANNO SCELTO: es: 2021';?></p>
+                    <p><?php echo 'ANNO SCELTO: '.$_SESSION['annoScelto'];?></p>
 
                 </div>
                 
-                <button class="allDivFiltraAnno afterFirstBeforeLastBtn"><p>Successivo</p><p><?php echo 'es: 2022';?> ></p></button>
+                <button type="submit" name="successivoAnnoPost" class="allDivFiltraAnno afterFirstBeforeLastBtn"><p>Successivo</p><p><?php echo $_SESSION['annoScelto']+1;?> ></p></button>
                 
-                <button class="allDivFiltraAnno firstLastBtn"><p>ULTIMO</p><p>>></p></button>
+                <button type="submit" name="ultimoPost" class="allDivFiltraAnno firstLastBtn"><p>ULTIMO</p><p>>></p></button>
 
 
-            </div>
+            </form>
 
-            <a href=""></a>
 
             <div class="post">
                 <?php
-                
-                $c = mysqli_connect('localhost', 'root', '', 'blog_kalcich') or die('Errore di connessione');
 
-                $s = 'SELECT * FROM tPost';
+                if(isset($_POST['cerca'])){
 
-                $r = mysqli_query($c,$s);
+                    $c = mysqli_connect('localhost', 'root', '', 'blog_kalcich') or die('Errore di connessione');
 
-                $n = mysqli_num_rows($r);
+                    $s = 'SELECT * FROM tPost WHERE descrizionePost LIKE "%'.$_POST['parolaDaCercare'].'%" AND YEAR(dataCreazione) = ' . $_SESSION['annoScelto'] . ';';
 
-                while($a=mysqli_fetch_array($r)) {
+                    $r = mysqli_query($c,$s);
 
-                    echo '<div class="postDB">';
-                    echo '<div class="headerPostDB">';
-                    echo '<p>'.$a['dataCreazione'].'</p><h3>'.$a['titoloPost'].'</h3>';
-                    echo '</div>';
-                    echo '<div class="corpoPostDB">';
-                    echo '<a href="dettagliPost.php?idPostVisualizzare='.$a['idPost'].'"><img class="immaginePostDB" src="'.$a['pathFotoPost'].'" alt="Immagine Post">';
-                    echo '<p>'.$a['descrizionePost'].'</p>';
-                    echo '</div>';
-                    echo '</div>';
+                    $n = mysqli_num_rows($r);
+
+                    if($n > 0){
+
+                        while($a=mysqli_fetch_array($r)) {
+
+                            echo '<div class="postDB">';
+                            echo '<div class="headerPostDB">';
+                            echo '<p>'.$a['dataCreazione'].'</p><h3>'.$a['titoloPost'].'</h3>';
+                            echo '</div>';
+                            echo '<div class="corpoPostDB">';
+                            echo '<a href="dettagliPost.php?idPostVisualizzare='.$a['idPost'].'"><img class="immaginePostDB" src="'.$a['pathFotoPost'].'" alt="Immagine Post">';
+                            echo '<p>'.$a['descrizionePost'].'</p>';
+                            echo '</div>';
+                            echo '</div>';
+    
+                        }
+
+                    } else{
+
+                        echo '<h1 style="color: red;">Nessun post contiene la stringa inserita</h1>';
+                    }
+
+                    
+
+                    
+                } else if(isset($_POST['precedenteAnnoPost'])){
+
+
+                    $_SESSION['annoScelto'] = $_SESSION['annoScelto'] - 1;
+
+                    $c = mysqli_connect('localhost', 'root', '', 'blog_kalcich') or die('Errore di connessione');
+
+                    $s = 'SELECT * FROM tPost WHERE YEAR(dataCreazione) = ' . $_SESSION['annoScelto'] . ';';
+
+
+                    $r = mysqli_query($c,$s);
+
+                    $n = mysqli_num_rows($r);
+
+                    if($n > 0){
+
+                        while($a=mysqli_fetch_array($r)) {
+
+                            echo '<div class="postDB">';
+                            echo '<div class="headerPostDB">';
+                            echo '<p>'.$a['dataCreazione'].'</p><h3>'.$a['titoloPost'].'</h3>';
+                            echo '</div>';
+                            echo '<div class="corpoPostDB">';
+                            echo '<a href="dettagliPost.php?idPostVisualizzare='.$a['idPost'].'"><img class="immaginePostDB" src="'.$a['pathFotoPost'].'" alt="Immagine Post">';
+                            echo '<p>'.$a['descrizionePost'].'</p>';
+                            echo '</div>';
+                            echo '</div>';
+    
+                        }
+
+                    } else{
+
+                        echo '<h1 style="color: red;">Nessun post contiene la stringa inserita</h1>';
+                    }
+
 
                 }
+
+                else if(isset($_POST['successivoAnnoPost'])){
+
+
+                    $_SESSION['annoScelto'] = $_SESSION['annoScelto'] + 1;
+
+                    $c = mysqli_connect('localhost', 'root', '', 'blog_kalcich') or die('Errore di connessione');
+
+                    $s = 'SELECT * FROM tPost WHERE YEAR(dataCreazione) = ' . $_SESSION['annoScelto'] . ';';
+
+
+                    $r = mysqli_query($c,$s);
+
+                    $n = mysqli_num_rows($r);
+
+                    if($n > 0){
+
+                        while($a=mysqli_fetch_array($r)) {
+
+                            echo '<div class="postDB">';
+                            echo '<div class="headerPostDB">';
+                            echo '<p>'.$a['dataCreazione'].'</p><h3>'.$a['titoloPost'].'</h3>';
+                            echo '</div>';
+                            echo '<div class="corpoPostDB">';
+                            echo '<a href="dettagliPost.php?idPostVisualizzare='.$a['idPost'].'"><img class="immaginePostDB" src="'.$a['pathFotoPost'].'" alt="Immagine Post">';
+                            echo '<p>'.$a['descrizionePost'].'</p>';
+                            echo '</div>';
+                            echo '</div>';
+    
+                        }
+
+                    } else{
+
+                        echo '<h1 style="color: red;">Nessun post contiene la stringa inserita</h1>';
+                    }
+                
+                }
+                
+                
+                else{
+
+                    $c = mysqli_connect('localhost', 'root', '', 'blog_kalcich') or die('Errore di connessione');
+
+                    $s = 'SELECT * FROM tPost;';
+
+                    $r = mysqli_query($c,$s);
+
+                    $n = mysqli_num_rows($r);
+
+                    while($a=mysqli_fetch_array($r)) {
+
+                        echo '<div class="postDB">';
+                        echo '<div class="headerPostDB">';
+                        echo '<p>'.$a['dataCreazione'].'</p><h3>'.$a['titoloPost'].'</h3>';
+                        echo '</div>';
+                        echo '<div class="corpoPostDB">';
+                        echo '<a href="dettagliPost.php?idPostVisualizzare='.$a['idPost'].'"><img class="immaginePostDB" src="'.$a['pathFotoPost'].'" alt="Immagine Post">';
+                        echo '<p>'.$a['descrizionePost'].'</p>';
+                        echo '</div>';
+                        echo '</div>';
+
+                    }
+                }
+                
+                
                 ?>
 
             </div>
