@@ -1,29 +1,92 @@
-.divRender{
+.divRender {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 2px solid #00bcd4;
+    border-radius: 8px;
+    background: #f5f5f5;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .divRender h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .credenziali {
+    margin-bottom: 15px;
+  }
+  
+  .credenziali label {
+    display: block;
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 5px;
+  }
+  
+  .credenziali input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    box-sizing: border-box;
+  }
+  
+  .btnLogIn {
 
-    
+    width: 50%;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 0.8em 1.2em;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btnLogIn:hover {
+    background-color: #0056b3;
+  
+  }
 
+  .divBtnLogIn{
+
+    width: 100%;
     display: flex;
-    flex-direction: column;
+
     align-items: center;
     justify-content: center;
-
-    width: 20vw;
-    height: 30vh;
-
-    border-color: black;
-    border-width: 5px;
-
-    border-style: solid;
-
-    border-radius: 13%;
-}
-
-form{
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 5vh;
-    margin-top: 3%;
-}
+  }
+  
+  .error-message {
+    color: red;
+    text-align: center;
+    margin-top: 10px;
+    font-size: 14px;
+  }
+  
+  @media (max-width: 480px) {
+    .divRender {
+      padding: 15px;
+      margin: 20px;
+    }
+  
+    .btnLogIn {
+      font-size: 14px;
+      padding: 8px;
+    }
+  
+    .credenziali input {
+      font-size: 13px;
+      padding: 8px;
+    }
+  
+    .divRender h2 {
+      font-size: 18px;
+    }
+  }
+  

@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from './Header';
-import '../styles/Login.css'
+
+import '../styles/Login.css';
+
+
 
 function Login() {
   const [username, setUsername] = useState('');
@@ -40,7 +43,7 @@ function Login() {
 
     <>
     
-      <Header></Header>
+      <Header />
 
       <div className='divRender'>
 
@@ -72,8 +75,14 @@ function Login() {
           
           </div>
 
+          <div className="divBtnLogIn">
+
+            <button className='btnLogIn' type='submit'>Login</button>
+
+          </div>
+
           
-          <button type='submit'>Login</button>
+         
 
 
         </form>

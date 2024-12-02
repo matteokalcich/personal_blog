@@ -23,7 +23,7 @@ function Frontoffice() {
   // Funzione per eseguire la ricerca dei post
   const filterRequest = async (parolaDaCercare, annoScelto) => {
     try {
-      // Effettua la richiesta GET al server
+
       const response = await fetch(
         `http://localhost:3000/api/filterRequest?ricercaParola=${parolaDaCercare}&ricercaAnno=${annoScelto}`,
         {
@@ -37,11 +37,11 @@ function Frontoffice() {
       if (response.status === 200) {
 
 
-        setPostList(data.result);  // Aggiorna lo stato con i risultati della query
+        setPostList(data.result); 
 
         
       } else {
-        setError(data.message);  // Gestisci l'errore
+        setError(data.message); 
         setPostList([]);
       }
     } catch (error) {
@@ -57,10 +57,10 @@ function Frontoffice() {
 
     if (formId === 'ricercaParola') {
       console.log('Form Parola inviato');
-      filterRequest(parolaDaCercare, annoScelto);  // Esegui la ricerca
+      filterRequest(parolaDaCercare, annoScelto);
     } else if (formId === 'ricercaAnno') {
       console.log('Form Anno inviato');
-      filterRequest(parolaDaCercare, annoScelto);  // Esegui la ricerca
+      filterRequest(parolaDaCercare, annoScelto);
     }
   };
 
