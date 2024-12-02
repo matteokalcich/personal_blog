@@ -1,0 +1,17 @@
+body{
+
+    margin-left: 1%;
+    margin-right: 1%;
+    margin-top: 1%;
+}
+
+.paginaIntera{
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    align-items: center;
+}
