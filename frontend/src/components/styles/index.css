@@ -1,17 +1,173 @@
-body{
-
-    margin-left: 1%;
-    margin-right: 1%;
-    margin-top: 1%;
-}
-
-.paginaIntera{
-
+/* Stile generale */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+    color: #333;
+    line-height: 1.6;
+  }
+  
+  h2 {
+    color: #444;
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 0.8em 1.2em;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Contenitore principale */
+  .paginaIntera {
+    max-width: 90%;
+    margin: 0 auto;
+    padding: 2rem 1rem;
     display: flex;
-
     flex-direction: column;
-
-    justify-content: center;
-
     align-items: center;
-}
+    gap: 2rem;
+  }
+  
+  @media (min-width: 768px) {
+    .paginaIntera {
+      max-width: 70%;
+    }
+  }
+  
+  /* Sezione di benvenuto */
+  .welcome {
+    position: relative;
+    width: 100vw;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  
+  .introduzioneMioBlog {
+    background-color: #e8f5e9;
+    padding: 1.5rem;
+    border-radius: 0.8rem;
+    box-shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, 0.1);
+    font-size: 1rem;
+    width: 100%;
+  }
+  
+  @media (min-width: 768px) {
+    .introduzioneMioBlog {
+      font-size: 1.2rem;
+    }
+  }
+  
+  /* Form di ricerca */
+  .ricerca {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    padding: 1rem;
+    background-color: #ffffff;
+    border: 0.1rem solid #ddd;
+    border-radius: 0.8rem;
+    box-shadow: 0 0.5rem 0.8rem rgba(0, 0, 0, 0.1);
+    width: 100%;
+    margin-bottom: 2rem;
+    
+  }
+  
+  .ricerca input {
+    width: 100%;
+    padding: 0.8em;
+    border: 0.1rem solid #ccc;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+  }
+  
+  .ricerca button {
+    align-self: flex-end;
+  }
+  
+  /* Form filtro anno */
+  .filtraAnno {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    padding: 1rem;
+    background-color: #ffffff;
+    border: 0.1rem solid #ddd;
+    border-radius: 0.8rem;
+    box-shadow: 0 0.5rem 0.8rem rgba(0, 0, 0, 0.1);
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+  
+  .filtraAnno .allDivFiltraAnno {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.8em;
+    border: 0.1rem solid #ddd;
+    background-color: #f5f5f5;
+    border-radius: 0.8rem;
+    text-align: center;
+    font-size: 1rem;
+    flex: 1;
+  }
+  
+  .filtraAnno .firstLastBtn {
+    background-color: #ff6f61;
+    color: white;
+    transition: background-color 0.3s ease;
+  }
+  
+  .filtraAnno .firstLastBtn:hover {
+    background-color: #e63946;
+  }
+  
+  .filtraAnno .annoCorrente {
+    text-align: center;
+    font-weight: bold;
+    color: #444;
+  }
+  
+  /* Sezione dei post */
+  .post {
+    margin-top: 3rem;
+    width: 100%;
+    padding: 1rem;
+    background-color: #ffffff;
+    border: 0.1rem solid #ddd;
+    border-radius: 0.8rem;
+    box-shadow: 0 0.5rem 0.8rem rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Responsive per schermi piccoli */
+  @media (max-width: 576px) {
+    h2 {
+      font-size: 1.5rem;
+    }
+  
+    button {
+      font-size: 0.9rem;
+      padding: 0.6em 1em;
+    }
+  
+    .ricerca input, .filtraAnno .allDivFiltraAnno {
+      font-size: 0.9rem;
+    }
+  
+    .post {
+      font-size: 0.9rem;
+    }
+  }
+  

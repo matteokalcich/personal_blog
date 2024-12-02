@@ -1,3 +1,5 @@
+import '../styles/index.css';
+
 function Post({titolo, dataCreazione, imgSrc, descrizione}) {
     
     return(

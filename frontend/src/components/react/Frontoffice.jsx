@@ -3,6 +3,7 @@ import Header from './Header';
 import { useNavigate } from 'react-router-dom';
 import Post from './Post';
 import PostList from './PostList';
+//import '../styles/index.css';
 
 function Frontoffice() {
   const formParolaRef = useRef(null);
@@ -13,6 +14,11 @@ function Frontoffice() {
   const [postList, setPostList] = useState([]); // Usa lo stato per memorizzare i post
   const [error, setError] = useState('');
   const navigate = useNavigate();
+
+  const loginRedirect = () => {
+
+    navigate('/login');
+  }
 
   // Funzione per eseguire la ricerca dei post
   const filterRequest = async (parolaDaCercare, annoScelto) => {
@@ -60,15 +66,22 @@ function Frontoffice() {
 
   return (
     <>
-      <Header />
+      
 
-      <div className="introBlog">
-        <div>
-          <h2>Ciao, benvenuto nel mio blog personale, spero ti piaccia</h2>
-          <button type="button">
-            LOGIN
-          </button>
+      <div className="paginaIntera">
+
+        <Header />
+        
+
+        <div className="welcome">
+
+            <h2>Ciao, benvenuto nel mio blog personale, spero ti piaccia</h2>
+            <button type="button" onClick={loginRedirect}>
+              LOGIN
+            </button>
+
         </div>
+
 
         <div className="introduzioneMioBlog">
           <p>
@@ -97,7 +110,10 @@ function Frontoffice() {
             <button type="submit" name="primoPost" className="allDivFiltraAnno firstLastBtn">
               <p>PRIMO</p>
             </button>
-            <button type="submit" name="precedenteAnnoPost" className="allDivFiltraAnno afterFirstBeforeLastBtn">
+            <button type="submit" name="precedenteAnnoPost" className="allDivFiltraAnno afterFirstBeforeLastBtn" onClick={() => {
+
+              setAnnoScelto(annoScelto - 1);
+            }}>
               <p>Precedente</p>
             </button>
 
@@ -105,7 +121,10 @@ function Frontoffice() {
               <p>Anno Scelto: {annoScelto}</p>
             </div>
 
-            <button type="submit" name="successivoAnnoPost" className="allDivFiltraAnno afterFirstBeforeLastBtn">
+            <button type="submit" name="successivoAnnoPost" className="allDivFiltraAnno afterFirstBeforeLastBtn" onClick={() => {
+
+              setAnnoScelto(annoScelto + 1);
+            }}>
               <p>Successivo</p>
             </button>
 
@@ -121,6 +140,8 @@ function Frontoffice() {
           </div>
         </div>
       </div>
+
+      
     </>
   );
 }
