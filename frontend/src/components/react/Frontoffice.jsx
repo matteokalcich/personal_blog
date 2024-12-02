@@ -10,7 +10,7 @@ function Frontoffice() {
   const formAnnoRef = useRef(null);
 
   const [parolaDaCercare, setParolaDaCercare] = useState('');
-  const [annoScelto, setAnnoScelto] = useState('2024');
+  const [annoScelto, setAnnoScelto] = useState(2024);
   const [postList, setPostList] = useState([]); // Usa lo stato per memorizzare i post
   const [error, setError] = useState('');
   const navigate = useNavigate();
