@@ -35,8 +35,18 @@
     box-sizing: border-box;
   }
   
+  .divBtnLogIn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
   .btnLogIn {
-
+    display: inline-flex; /* Permette di allineare il contenuto interno in riga */
+    align-items: center; /* Centra verticalmente il testo e l'animazione */
+    justify-content: center;
+    gap: 1rem; /* Spazio tra il testo e l'animazione */
     width: 50%;
     background-color: #007bff;
     color: white;
@@ -50,17 +60,13 @@
   
   .btnLogIn:hover {
     background-color: #0056b3;
+  }
   
+  #lottie_login_lock {
+    width: 24px; /* Dimensiona l'animazione */
+    height: 24px;
   }
-
-  .divBtnLogIn{
-
-    width: 100%;
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-  }
+  
   
   .error-message {
     color: red;
