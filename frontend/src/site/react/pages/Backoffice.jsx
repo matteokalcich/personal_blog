@@ -30,13 +30,13 @@ function Backoffice() {
         <Header />
 
         <div className="welcome">
-          <h2>Ciao {username}, benvenuto nel mio blog personale, spero ti piaccia</h2>
+          <h2>Ciao {username}, benvenuto la pagina di amministrazione, pronto a eseguire operazioni sui post?</h2>
           <button type="button" onClick={loginRedirect}>
             LOGOUT
           </button>
         </div>
 
-        <RicercaPost onError={handleError}/>
+        <RicercaPost onError={handleError} chiamante={'backoffice'}/>
 
 
     </div>

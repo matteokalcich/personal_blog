@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import PostList from './PostList';
 import '../../styles/index.css';
 
@@ -10,6 +10,13 @@ const RicercaPost = ({ initialAnno = 2024, onError, chiamante }) => {
   const [annoScelto, setAnnoScelto] = useState(initialAnno);
   const [postList, setPostList] = useState([]);
   const [error, setError] = useState('');
+
+    // Uso di useEffect per monitorare i cambiamenti in postList
+    useEffect(() => {
+      console.log('PostList aggiornato:', postList); // Logga il nuovo stato di postList
+
+    }, [postList]); // L'effetto si attiva ogni volta che postList cambia
+  
 
   // Funzione per eseguire la ricerca dei post
   const filterRequest = async (parolaDaCercare, annoScelto) => {
@@ -25,7 +32,9 @@ const RicercaPost = ({ initialAnno = 2024, onError, chiamante }) => {
       const data = await response.json();
 
       if (response.status === 200) {
+        
         setPostList(data.result);
+        console.log('Ecco i risultati della query di ricerca: ', postList);
         setError('');
       } else {
         setError(data.message);
@@ -104,7 +113,7 @@ const RicercaPost = ({ initialAnno = 2024, onError, chiamante }) => {
         </form>
   
         <div className="post">
-          <PostList posts={postList} />
+          <PostList posts={postList} chiamanteP={chiamante} />
         </div>
   
         {error && <p className="error">{error}</p>}
@@ -163,7 +172,7 @@ const RicercaPost = ({ initialAnno = 2024, onError, chiamante }) => {
         </form>
   
         <div className="post">
-          <PostList posts={postList} />
+          <PostList posts={postList} chiamanteP={chiamante}/>
         </div>
   
         {error && <p className="error">{error}</p>}
