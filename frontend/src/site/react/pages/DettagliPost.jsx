@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
-import Header from './Header';
+import Header from '../components/Header';
 import { useNavigate } from 'react-router-dom';
-import Post from './Post';
+import Post from '../components/Post';
 
 function DettagliPost() {
 

@@ -8,6 +8,7 @@ function PostList({ posts }) {
         posts.map((post) => (
           <Post
             key={post.idPost}
+            
             titolo={post.titoloPost}
             dataCreazione={post.dataCreazione}
             imgSrc={post.pathFotoPost}

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Header from './Header';
+import Header from '../components/Header';
 import Lottie from 'lottie-react';
-import loginLock from '../assets/animations/login_lock.json';
-import successful_login from '../assets/animations/successful_login.json';
-import '../styles/Login.css';
+import loginLock from '../../assets/animations/login_lock.json';
+import successful_login from '../../assets/animations/successful_login.json';
+import '../../styles/Login.css';
 
 
 
@@ -29,9 +29,7 @@ function Login() {
 
       if (response.status === 200) {
 
-
         setCorrectCredentials(true);
-        //navigate('/backoffice');
 
       } else {
 
@@ -57,7 +55,7 @@ function Login() {
 
         <form onSubmit={handleSubmit}>
 
-          <div className="credenziali">
+          <div className='credenziali'>
 
             <label>Username: </label>
             <input
@@ -69,7 +67,7 @@ function Login() {
 
           </div>
 
-          <div className="credenziali">
+          <div className='credenziali'>
 
             <label>Password: </label>
             <input
@@ -81,7 +79,7 @@ function Login() {
           
           </div>
 
-          <div className="divBtnLogIn">
+          <div className='divBtnLogIn'>
 
             <button className='btnLogIn' type='submit'>Login
             <Lottie id='lottie_login_lock' animationData={loginLock}/>
@@ -100,7 +98,7 @@ function Login() {
             loop={false} // Assicura che l'animazione venga riprodotta solo una volta
             onComplete={() => {
               setTimeout(() => {
-                navigate('/'); // Naviga dopo 5 secondi
+                navigate('/backoffice', {state: {username}}); // Naviga dopo 5 secondi e passa username come parametro
               }, 100); // 5000 ms = 5 secondi
             }}
           />

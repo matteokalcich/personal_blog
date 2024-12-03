@@ -1,7 +1,7 @@
 import React from 'react';
-import '../styles/Header.css';
-import '../styles/font.css';
-import '../styles/link.css';
+import '../../styles/Header.css';
+import '../../styles/font.css';
+import '../../styles/link.css';
 
 
 function Header() {
