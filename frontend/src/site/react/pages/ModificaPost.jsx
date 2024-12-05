@@ -1,27 +1,41 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import Header from '../components/Header';
 import RicercaPost from '../components/RicercaPost';
 import '../../styles/index.css';
 
-function ModificaPost({idPost, username}) {
+function ModificaPost({username}) {
 
     const navigate = useNavigate();
+    const location = useLocation();
+    const id = location.state ? location.state.id : null;; // Estrae id dallo stato, e gestisce il caso in cui sia undefined
+
 
     const [titoloPostInsert, setTitoloPostInsert] = useState('');
     const [descrizionePostInsert, setDescrizionePostInsert] = useState('');
     const [immaginePostInsert, setImmaginePostInsert] = useState('');
     const [error, setError] = useState('');
 
+    
+
     // Funzione per eseguire la ricerca dei post
     const filterRequest = async (elimina) => {
+
         try {
             const response = await fetch(
                 `http://localhost:3000/api/changePost`,
                 {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ id: `${idPost}`, titoloPost: `${titoloPostInsert}`, descrizionePost: `${descrizionePostInsert}`, pathFotoPost: `${immaginePostInsert}`}),
+                    
+                    body: JSON.stringify({ 
+                        idPost: id, 
+                        titoloPost: titoloPostInsert, 
+                        descrizionePost: descrizionePostInsert, 
+                        pathFotoPost: immaginePostInsert, 
+                        elimina 
+                    }),
+                    
                 }
             );
 
@@ -56,12 +70,18 @@ function ModificaPost({idPost, username}) {
 
             case 'modifica':
 
+                filterRequest(false);
 
+                navigate('/backoffice');
 
                 break;
 
 
             case 'elimina':
+
+                filterRequest(true);
+
+                navigate('/backoffice');
 
                 break;
         }
