@@ -12,11 +12,12 @@ app.use(
       origin: '*',
   })
 );
+
+
 app.use(express.json());
 
 
 //per db
-
 const con = mysql.createConnection({
 
     host: 'localhost',
@@ -28,6 +29,7 @@ const con = mysql.createConnection({
 
 
 app.post('/api/login', (req, res) => {
+
     const { username, password } = req.body;
   
     const query = 'SELECT * FROM tUtente WHERE userName = ? AND passw = ?';
@@ -44,7 +46,7 @@ app.post('/api/login', (req, res) => {
         return res.status(401).json({ message: 'Credenziali non valide.' });
       }
     });
-})
+});
 
 app.get('/api/filterRequest', (req, res) => {
 
@@ -95,7 +97,80 @@ app.get('/api/dettagliPost', (req, res) => {
   });
 
 });
-  
+
+app.post('/api/changePost', (req, res) => {
+  let { idPost, titoloPost, descrizionePost, pathFotoPost, elimina } = req.body;
+
+  console.log(Number(idPost), '- ', titoloPost, '- ', descrizionePost, '- ', pathFotoPost, '- ', elimina);
+
+  if (elimina) {
+    // Prima elimina i record correlati dalla tabella tModificaPost perchè cè la foreign key
+    const deleteModificaPostQuery = 'DELETE FROM tModificaPost WHERE idPost = ?';
+    con.query(deleteModificaPostQuery, [idPost], (err, result) => {
+        if (err) {
+            console.error('Errore nella query di eliminazione da tModificaPost:', err);
+            return res.status(500).json({ message: 'Errore del server.' });
+        }
+
+        // Ora elimina il post dalla tabella tPost
+        const deletePostQuery = 'DELETE FROM tPost WHERE idPost = ?';
+        con.query(deletePostQuery, [idPost], (err, result) => {
+            if (err) {
+                console.error('Errore nella query di eliminazione da tPost:', err);
+                return res.status(500).json({ message: 'Errore del server.' });
+            }
+
+            if (result.affectedRows === 0) {
+                return res.status(404).json({ message: 'Post non trovato.' });
+            }
+
+            return res.status(200).json({ successful: 'true' });
+        });
+    });
+}
+ else {
+      // Modifica il post
+      const updateQuery = 'UPDATE tPost SET titoloPost = ?, descrizionePost = ?, pathFotoPost = ? WHERE idPost = ?';
+      con.query(updateQuery, [titoloPost, descrizionePost, pathFotoPost, idPost], (err, result) => {
+          if (err) {
+              console.error('Errore nella query di modifica:', err);
+              return res.status(500).json({ message: 'Errore del server.' });
+          }
+
+          if (result.affectedRows === 0) {
+              return res.status(404).json({ message: 'Post non trovato.' });
+          }
+
+          // Aggiungi o aggiorna la tabella tModificaPost
+          const selectQuery = 'SELECT * FROM tModificaPost WHERE idPost = ?';
+          con.query(selectQuery, [idPost], (err, result) => {
+              if (err) {
+                  console.error('Errore nella query di selezione per tModificaPost:', err);
+                  return res.status(500).json({ message: 'Errore del server.' });
+              }
+
+              let query;
+              if (result.length > 0) {
+                  // Se esiste già un record, aggiorna la data
+                  query = 'UPDATE tModificaPost SET dataModificaPost = NOW() WHERE idPost = ?';
+              } else {
+                  // Altrimenti, inserisci un nuovo record
+                  query = 'INSERT INTO tModificaPost (idPost, dataModificaPost) VALUES (?, NOW())';
+              }
+
+              con.query(query, [idPost], (err, result) => {
+                  if (err) {
+                      console.error('Errore nella query per tModificaPost:', err);
+                      return res.status(500).json({ message: 'Errore del server.' });
+                  }
+
+                  return res.status(200).json({ successful: 'true' });
+              });
+          });
+      });
+  }
+});
+
 
 // Avvio del server
 app.listen(port, () => {
