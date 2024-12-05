@@ -11,7 +11,6 @@ function Login() {
   const [password, setPassword] = useState('');
   const [correctCredentials, setCorrectCredentials] = useState(false);
   const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);  // Stato per mostrare l'animazione
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {

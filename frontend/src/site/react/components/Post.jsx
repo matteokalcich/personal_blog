@@ -6,7 +6,7 @@ function Post({ id, titolo, dataCreazione, imgSrc, descrizione, chiamante }) {
   const navigate = useNavigate();
 
   const redirectToModificaPost = () => {
-    navigate('/modificaPost', { state: { id } }); // Ho aggiunto 'state' per passare l'id correttamente
+    navigate('/modificaPost', { state: { id } } ); // Ho aggiunto 'state' per passare l'id correttamente
   };
 
   const postFrontOffice = () => {
@@ -17,7 +17,6 @@ function Post({ id, titolo, dataCreazione, imgSrc, descrizione, chiamante }) {
           <h3>{titolo}</h3>
         </div>
         <div className="corpoPostDB">
-          <h1>Colegamento Per pagina con dettagli post (richiesta get con parametro l'id)</h1>
           <img className="immaginePostDB" src={imgSrc} alt="" />
           <p>{descrizione}</p>
         </div>
@@ -33,7 +32,6 @@ function Post({ id, titolo, dataCreazione, imgSrc, descrizione, chiamante }) {
           <h3>{titolo}</h3>
         </div>
         <div className="corpoPostDB">
-          <h1>Colegamento Per pagina con modifica post (richiesta get con parametro l'id)</h1>
           <img className="immaginePostDB" src={imgSrc} alt="" />
           <p>{descrizione}</p>
         </div>

@@ -1,12 +1,13 @@
 import React from 'react';
 import Post from './Post';
+import '../../styles/index.css';
 
 function PostList({ posts, chiamanteP }) {
 
   console.log('Post ricevuti:', posts); // Aggiungi un log per controllare cosa riceve il componente
 
   return (
-    <div className="postDB">
+    <>
       {posts.length > 0 ? (
         posts.map((post) => (
 
@@ -24,7 +25,7 @@ function PostList({ posts, chiamanteP }) {
       ) : (
         <p style={{ color: 'red' }}>Nessun post disponibile</p>
       )}
-    </div>
+    </>
   );
 }
 

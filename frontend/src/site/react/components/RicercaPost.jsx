@@ -10,13 +10,15 @@ const RicercaPost = ({ initialAnno = 2024, onError, chiamante }) => {
   const [annoScelto, setAnnoScelto] = useState(initialAnno);
   const [postList, setPostList] = useState([]);
   const [error, setError] = useState('');
-
-    // Uso di useEffect per monitorare i cambiamenti in postList
-    useEffect(() => {
-      console.log('PostList aggiornato:', postList); // Logga il nuovo stato di postList
-
-    }, [postList]); // L'effetto si attiva ogni volta che postList cambia
   
+  useEffect(() => { //ho fatto in modo che se cambia la variabile annoScelto allora eseguo la query per la ricerca per anno
+
+    console.log('è stato cambiato il valore dell\'anno scelto: ', annoScelto);
+
+    filterRequest(parolaDaCercare, annoScelto);
+
+  }, [annoScelto])
+
 
   // Funzione per eseguire la ricerca dei post
   const filterRequest = async (parolaDaCercare, annoScelto) => {

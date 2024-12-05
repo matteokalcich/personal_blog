@@ -9,8 +9,6 @@ function Backoffice() {
 
   const location = useLocation();
 
-  const {username} = location.state;
-
   const navigate = useNavigate();
 
   const loginRedirect = () => {
@@ -30,7 +28,7 @@ function Backoffice() {
         <Header />
 
         <div className="welcome">
-          <h2>Ciao {username}, benvenuto la pagina di amministrazione, pronto a eseguire operazioni sui post?</h2>
+          <h2>Ciao, benvenuto la pagina di amministrazione, pronto a eseguire operazioni sui post?</h2>
           <button type="button" onClick={loginRedirect}>
             LOGOUT
           </button>
