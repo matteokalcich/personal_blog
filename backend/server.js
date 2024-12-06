@@ -3,11 +3,11 @@ const cors = require('cors');
 const mysql = require('mysql');
 const axios = require('axios');
 const multer = require('multer');
-const fileUpload = require("express-fileupload");
-const path = require("path");
-const fs = require("fs");
+const fileUpload = require('express-fileupload');
+const path = require('path');
+const fs = require('fs');
 
-const UPLOAD_DIR = path.join(__dirname, "uploads");
+const UPLOAD_DIR = path.join(__dirname, 'assets/images');
 
 const app = express();
 const port = 3000;
@@ -16,7 +16,7 @@ const port = 3000;
 app.use(cors({ origin: '*' }));
 app.use(fileUpload());
 app.use(express.json());
-app.use('/uploads', express.static('uploads/'));
+app.use('/uploads', express.static('assets/images/'));
 
 // Connessione al database
 const con = mysql.createConnection({
@@ -73,7 +73,7 @@ app.post('/api/changePostNew', async (req, res) => {
     const uploadPath = path.join(UPLOAD_DIR, uploadedFile.name);
     try {
       await uploadedFile.mv(uploadPath);
-      pathFotoPost = 'uploads/' + uploadedFile.name;
+      pathFotoPost = 'assets/images/' + uploadedFile.name;
     } catch (err) {
       return res.status(500).json({ message: 'Errore nel caricamento del file.' });
     }
