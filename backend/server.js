@@ -16,7 +16,7 @@ const port = 3000;
 app.use(cors({ origin: '*' }));
 app.use(fileUpload());
 app.use(express.json());
-app.use('/uploads', express.static('assets/images/'));
+app.use('/assets/images', express.static('assets/images/'));
 
 // Connessione al database
 const con = mysql.createConnection({
@@ -121,7 +121,7 @@ app.post('/api/createPost', async (req, res) => {
     const uploadPath = path.join(UPLOAD_DIR, uploadedFile.name);
     try {
       await uploadedFile.mv(uploadPath);
-      pathFotoPost = 'uploads/' + uploadedFile.name;
+      pathFotoPost = 'assets/images/' + uploadedFile.name;
     } catch (err) {
       return res.status(500).json({ message: 'Errore nel caricamento del file.' });
     }
