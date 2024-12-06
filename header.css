@@ -1,0 +1,27 @@
+.introBlog{
+    display: flex;
+    flex-direction: column;
+    width: 98vw;
+    min-height: 10vh;
+    margin-bottom: 7vh;
+}
+
+.primaParte{
+
+    display: flex;
+    flex-direction: row;
+}
+
+#logo{
+
+    height: 7%;
+    width: 8%;
+}
+
+.titolo{
+
+    margin-left: 25%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

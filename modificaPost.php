@@ -29,15 +29,32 @@ if (isset($_GET['idPostModificare'])) {
             $s = 'UPDATE tPost SET ' . implode(', ', $updateFields) . ' WHERE idPost=' . $_GET['idPostModificare'] . ';';
 
             if (mysqli_query($c, $s)) {
-                echo '<h1 style="color: green;">Post modificato con successo!</h1>';
+
+                $selectQuery = 'SELECT * FROM tModificaPost WHERE idPost = '.$_GET['idPostModificare'].';';
+
+                $r = mysqli_query($c, $selectQuery);
+
+                if(mysqli_num_rows($r) > 0){
+
+                    $updateModificaPOst = 'UPDATE tModificaPost SET dataModificaPost = NOW() WHERE idPost = '.$_GET['idPostModificare'].';';
+                    mysqli_query($c, $updateModificaPOst);
+
+                } else {
+
+                    $insertModificaPost = 'INSERT INTO tModificaPost (idPost, dataModificaPost) VALUES ('.$_GET['idPostModificare'].', NOW())';
+                    mysqli_query($c, $insertModificaPost);
+                }
+
             } else {
-                echo '<h1 style="color: red;">Errore nella modifica del post</h1>';
+
             }
         } else {
-            echo '<h1 style="color: orange;">Nessun campo è stato modificato.</h1>';
+
         }
 
         mysqli_close($c);
+
+        header('Location: backoffice.php');
 
 
     } else if(isset($_POST['eliminaPost'])){
@@ -47,6 +64,8 @@ if (isset($_GET['idPostModificare'])) {
         $s = 'DELETE FROM tPost WHERE idPost='.$_GET['idPostModificare'];
 
         mysqli_query($c, $s);
+
+        header('Location: backoffice.php');
 
     } else if(isset($_POST['Annulla'])){
 
@@ -65,10 +84,11 @@ if (isset($_GET['idPostModificare'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Modifica Post</title>
-    <link rel="stylesheet" href="styles/index.css">
-    <link rel="stylesheet" href="styles/font.css">
-    <link rel="stylesheet" href="styles/link.css">
-    <link rel="stylesheet" href="styles/nuovoPost.css">
+    <link rel="stylesheet" href="/ytfydindex.css">
+    <link rel="stylesheet" href="font.css">
+    <link rel="stylesheet" href="header.css">
+    <link rel="stylesheet" href="nuovoPost.css">
+
 </head>
 <body>
 

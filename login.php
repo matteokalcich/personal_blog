@@ -41,9 +41,10 @@ if(isset($_POST['invia'])){
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="styles/index.css">
-    <link rel="stylesheet" href="styles/login.css">
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="login.css">
     <link rel="stylesheet" href="styles/font.css">
+    <link rel="stylesheet" href="header.css">
 </head>
 <body>
     
@@ -60,17 +61,35 @@ if(isset($_POST['invia'])){
       
     </div>
 
+    <div class="divRender">
 
-    <form action="" method="post">
+        <h2>Login</h2>
 
-        <input type="text" name="username" placeholder="username" val="">
+    
+        <form action="" method="post">
 
-        <input type="password" name="password" placeholder="password" val="">
+            <div class="credenziali">
 
-        <input type="text" name="valore" val="">
+                <input type="text" name="username" placeholder="username" val="">
+                <input type="password" name="password" placeholder="password" val="">
 
-        <button name="invia" type="submit">Login</button>
+            </div>
 
-    </form>
+            
+
+            <div class="divBtnLogin">
+
+                <button name="invia" type="submit">Login</button>
+
+            </div>
+
+            
+
+        </form>
+
+    </div>
+
+
+    
 </body>
 </html>

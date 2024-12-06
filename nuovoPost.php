@@ -14,19 +14,19 @@ if (isset($_POST['Invia'])) {
 
 
             if (mysqli_query($c, $s)) {
-                echo '<h1 style="color: green;">Post inserito con successo!</h1>';
+
             } else {
-                echo '<h1 style="color: red;">Errore nell\'inserimento del post: ' . mysqli_error($c) . '</h1>';
+
             }
 
 
             mysqli_close($c);
         } else {
-            echo '<h1 style="color: red;">Impossibile trasferire il file</h1>';
+
         }
-    } else {
-        echo '<h1 style="color: red;">Dati mancanti!</h1>';
-    }
+    } 
+    
+    header('Location: backoffice.php');
 }
 
 if(isset($_POST['Annulla'])){
@@ -46,7 +46,7 @@ if(isset($_POST['Annulla'])){
     <link rel="stylesheet" href="styles/index.css">
     <link rel="stylesheet" href="styles/font.css">
     <link rel="stylesheet" href="styles/link.css">
-    <link rel="stylesheet" href="styles/nuovoPost.css">
+    <link rel="stylesheet" href="nuovoPost.css">
 </head>
 <body>
 
