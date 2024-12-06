@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 30, 2024 at 08:37 AM
+-- Generation Time: Dec 06, 2024 at 05:34 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -33,6 +33,14 @@ CREATE TABLE `tModificaPost` (
   `idPost` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `tModificaPost`
+--
+
+INSERT INTO `tModificaPost` (`idModifica`, `dataModificaPost`, `idPost`) VALUES
+(3, '2024-12-06', 19),
+(4, '2024-12-06', 21);
+
 -- --------------------------------------------------------
 
 --
@@ -47,6 +55,16 @@ CREATE TABLE `tPost` (
   `pathFotoPost` varchar(255) DEFAULT NULL,
   `dataEliminazionePost` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tPost`
+--
+
+INSERT INTO `tPost` (`idPost`, `titoloPost`, `descrizionePost`, `dataCreazione`, `pathFotoPost`, `dataEliminazionePost`) VALUES
+(19, 'Test', 'tyre', '2024-12-06', 'assets/images/chest.png', NULL),
+(20, 'Si, è un test', 'sperimao funzioni sulla tabella tmodsifica', '2024-12-06', 'assets/images/dark_mode.png', NULL),
+(21, 'Testissimo', 'dsjhvhi ds', '2024-12-06', 'assets/images/light_mode.png', NULL),
+(22, 'djfsbxkjdc', 'escdkhvsdc', '2024-12-06', 'assets/images/chest.png', NULL);
 
 -- --------------------------------------------------------
 
@@ -65,7 +83,8 @@ CREATE TABLE `tUtente` (
 --
 
 INSERT INTO `tUtente` (`idUtente`, `userName`, `passw`) VALUES
-(1, 'matteo', '1234');
+(1, 'matteo', '1234'),
+(3, 'tempo', '1234');
 
 --
 -- Indexes for dumped tables
@@ -99,19 +118,19 @@ ALTER TABLE `tUtente`
 -- AUTO_INCREMENT for table `tModificaPost`
 --
 ALTER TABLE `tModificaPost`
-  MODIFY `idModifica` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idModifica` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `tPost`
 --
 ALTER TABLE `tPost`
-  MODIFY `idPost` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `idPost` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `tUtente`
 --
 ALTER TABLE `tUtente`
-  MODIFY `idUtente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `idUtente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables
