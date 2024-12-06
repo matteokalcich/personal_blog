@@ -34,8 +34,6 @@ function Post({ id, titolo, dataCreazione, imgSrc, descrizione, chiamante }) {
         <div className="corpoPostDB">
           <img className="immaginePostDB" src={imgSrc} alt="" />
           <p>{descrizione}</p>
-        </div>
-        <div className="postDBright">
           <button type="button" onClick={redirectToModificaPost}><p>MODIFICA O ELIMINA</p></button>
         </div>
       </div>

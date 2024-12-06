@@ -1,179 +1,139 @@
 const express = require('express');
 const cors = require('cors');
 const mysql = require('mysql');
+const axios = require('axios');
+const multer = require('multer');
+const fileUpload = require("express-fileupload");
+const path = require("path");
+const fs = require("fs");
 
+const UPLOAD_DIR = path.join(__dirname, "uploads");
 
 const app = express();
 const port = 3000;
 
 // Middleware
-app.use(
-  cors({
-      origin: '*',
-  })
-);
-
-
+app.use(cors({ origin: '*' }));
+app.use(fileUpload());
 app.use(express.json());
+app.use('/uploads', express.static('uploads/'));
 
-
-//per db
+// Connessione al database
 const con = mysql.createConnection({
-
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'blog_kalcich'
+  host: 'localhost',
+  user: 'root',
+  password: '',
+  database: 'blog_kalcich',
 });
 
-
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
 
 app.post('/api/login', (req, res) => {
+  const { username, password } = req.body;
+  const query = 'SELECT * FROM tUtente WHERE userName = ? AND passw = ?';
 
-    const { username, password } = req.body;
-  
-    const query = 'SELECT * FROM tUtente WHERE userName = ? AND passw = ?';
-  
-    con.query(query, [username, password], (err, result) => {
-      if (err) {
-        console.error('Errore nella query:', err);
-        return res.status(500).json({ message: 'Errore del server.' });
-      }
-  
-      if (result.length > 0) {
-        return res.status(200).json({ message: 'Login riuscito.' });
-      } else {
-        return res.status(401).json({ message: 'Credenziali non valide.' });
-      }
-    });
+  con.query(query, [username, password], (err, result) => {
+    if (err) return res.status(500).json({ message: 'Errore del server.' });
+    if (result.length > 0) return res.status(200).json({ message: 'Login riuscito.' });
+    return res.status(401).json({ message: 'Credenziali non valide.' });
+  });
 });
 
 app.get('/api/filterRequest', (req, res) => {
-
-  let ricercaParola = req.query.ricercaParola;
-  let ricercaAnno = req.query.ricercaAnno;
-
-  console.log('Parametri ricevuti: ', ricercaParola, ' e ', ricercaAnno);
-
+  const { ricercaParola, ricercaAnno } = req.query;
   const query = 'SELECT * FROM tPost WHERE descrizionePost LIKE ? AND YEAR(dataCreazione) = ?';
-  const searchPattern = `%${ricercaParola}%`; // Aggiungi i caratteri % manualmente
-  
-  con.query(query, [searchPattern, ricercaAnno], (err, result) => {
-    if (err) {
-      console.error('Errore nella query:', err);
-      return res.status(500).json({ message: 'Errore del server.' });
-    }
-  
-    if (result.length > 0) {
-      return res.status(200).json({ result });
-    } else {
-      return res.status(404).json({ message: 'Nessuna corrispondenza trovata' });
-    }
-  });
+  const searchPattern = `%${ricercaParola}%`;
 
+  con.query(query, [searchPattern, ricercaAnno], (err, result) => {
+    if (err) return res.status(500).json({ message: 'Errore del server.' });
+    if (result.length > 0) return res.status(200).json({ result });
+    return res.status(404).json({ message: 'Nessuna corrispondenza trovata' });
+  });
 });
 
 app.get('/api/dettagliPost', (req, res) => {
-
-  let ricercaParola = req.query.ricercaParola;
-  let ricercaAnno = req.query.ricercaAnno;
-
-  console.log('Parametri ricevuti: ', ricercaParola, ' e ', ricercaAnno);
-
+  const { ricercaParola, ricercaAnno } = req.query;
   const query = 'SELECT * FROM tPost WHERE descrizionePost LIKE ? AND YEAR(dataCreazione) = ?';
-  const searchPattern = `%${ricercaParola}%`; // Aggiungi i caratteri % manualmente
-  
-  con.query(query, [searchPattern, ricercaAnno], (err, result) => {
-    if (err) {
-      console.error('Errore nella query:', err);
-      return res.status(500).json({ message: 'Errore del server.' });
-    }
-  
-    if (result.length > 0) {
-      return res.status(200).json({ result });
-    } else {
-      return res.status(404).json({ message: 'Nessuna corrispondenza trovata' });
-    }
-  });
+  const searchPattern = `%${ricercaParola}%`;
 
+  con.query(query, [searchPattern, ricercaAnno], (err, result) => {
+    if (err) return res.status(500).json({ message: 'Errore del server.' });
+    if (result.length > 0) return res.status(200).json({ result });
+    return res.status(404).json({ message: 'Nessuna corrispondenza trovata' });
+  });
 });
 
-app.post('/api/changePost', (req, res) => {
-  let { idPost, titoloPost, descrizionePost, pathFotoPost, elimina } = req.body;
+app.post('/api/changePostNew', async (req, res) => {
+  const { idPost, titoloPost, descrizionePost, elimina } = req.body;
+  const uploadedFile = req.files ? req.files.file : null;
 
-  console.log(Number(idPost), '- ', titoloPost, '- ', descrizionePost, '- ', pathFotoPost, '- ', elimina);
+  let pathFotoPost = null;
+  if (uploadedFile) {
+    const uploadPath = path.join(UPLOAD_DIR, uploadedFile.name);
+    try {
+      await uploadedFile.mv(uploadPath);
+      pathFotoPost = 'uploads/' + uploadedFile.name;
+    } catch (err) {
+      return res.status(500).json({ message: 'Errore nel caricamento del file.' });
+    }
+  }
 
-  if (elimina) {
-    // Prima elimina i record correlati dalla tabella tModificaPost perchè cè la foreign key
+  if (elimina === 'true') {
     const deleteModificaPostQuery = 'DELETE FROM tModificaPost WHERE idPost = ?';
-    con.query(deleteModificaPostQuery, [idPost], (err, result) => {
-        if (err) {
-            console.error('Errore nella query di eliminazione da tModificaPost:', err);
-            return res.status(500).json({ message: 'Errore del server.' });
-        }
+    con.query(deleteModificaPostQuery, [idPost], (err) => {
+      if (err) return res.status(500).json({ message: 'Errore del server.' });
 
-        // Ora elimina il post dalla tabella tPost
-        const deletePostQuery = 'DELETE FROM tPost WHERE idPost = ?';
-        con.query(deletePostQuery, [idPost], (err, result) => {
-            if (err) {
-                console.error('Errore nella query di eliminazione da tPost:', err);
-                return res.status(500).json({ message: 'Errore del server.' });
-            }
-
-            if (result.affectedRows === 0) {
-                return res.status(404).json({ message: 'Post non trovato.' });
-            }
-
-            return res.status(200).json({ successful: 'true' });
-        });
-    });
-}
- else {
-      // Modifica il post
-      const updateQuery = 'UPDATE tPost SET titoloPost = ?, descrizionePost = ?, pathFotoPost = ? WHERE idPost = ?';
-      con.query(updateQuery, [titoloPost, descrizionePost, pathFotoPost, idPost], (err, result) => {
-          if (err) {
-              console.error('Errore nella query di modifica:', err);
-              return res.status(500).json({ message: 'Errore del server.' });
-          }
-
-          if (result.affectedRows === 0) {
-              return res.status(404).json({ message: 'Post non trovato.' });
-          }
-
-          // Aggiungi o aggiorna la tabella tModificaPost
-          const selectQuery = 'SELECT * FROM tModificaPost WHERE idPost = ?';
-          con.query(selectQuery, [idPost], (err, result) => {
-              if (err) {
-                  console.error('Errore nella query di selezione per tModificaPost:', err);
-                  return res.status(500).json({ message: 'Errore del server.' });
-              }
-
-              let query;
-              if (result.length > 0) {
-                  // Se esiste già un record, aggiorna la data
-                  query = 'UPDATE tModificaPost SET dataModificaPost = NOW() WHERE idPost = ?';
-              } else {
-                  // Altrimenti, inserisci un nuovo record
-                  query = 'INSERT INTO tModificaPost (idPost, dataModificaPost) VALUES (?, NOW())';
-              }
-
-              con.query(query, [idPost], (err, result) => {
-                  if (err) {
-                      console.error('Errore nella query per tModificaPost:', err);
-                      return res.status(500).json({ message: 'Errore del server.' });
-                  }
-
-                  return res.status(200).json({ successful: 'true' });
-              });
-          });
+      const deletePostQuery = 'DELETE FROM tPost WHERE idPost = ?';
+      con.query(deletePostQuery, [idPost], (err) => {
+        if (err) return res.status(500).json({ message: 'Errore del server.' });
+        res.status(200).json({ successful: 'true' });
       });
+    });
+  } else {
+    const updateQuery = 'UPDATE tPost SET titoloPost = ?, descrizionePost = ?, pathFotoPost = ? WHERE idPost = ?';
+    con.query(updateQuery, [titoloPost, descrizionePost, pathFotoPost, idPost], (err) => {
+      if (err) return res.status(500).json({ message: 'Errore del server.' });
+
+      const selectQuery = 'SELECT * FROM tModificaPost WHERE idPost = ?';
+      con.query(selectQuery, [idPost], (err, result) => {
+        if (err) return res.status(500).json({ message: 'Errore del server.' });
+
+        const query = result.length > 0
+          ? 'UPDATE tModificaPost SET dataModificaPost = NOW() WHERE idPost = ?'
+          : 'INSERT INTO tModificaPost (idPost, dataModificaPost) VALUES (?, NOW())';
+
+        con.query(query, [idPost], (err) => {
+          if (err) return res.status(500).json({ message: 'Errore del server.' });
+          res.status(200).json({ successful: 'true' });
+        });
+      });
+    });
   }
 });
 
+app.post('/api/createPost', async (req, res) => {
+  const { titoloPost, descrizionePost } = req.body;
+  const uploadedFile = req.files ? req.files.file : null;
 
-// Avvio del server
+  let pathFotoPost = null;
+  if (uploadedFile) {
+    const uploadPath = path.join(UPLOAD_DIR, uploadedFile.name);
+    try {
+      await uploadedFile.mv(uploadPath);
+      pathFotoPost = 'uploads/' + uploadedFile.name;
+    } catch (err) {
+      return res.status(500).json({ message: 'Errore nel caricamento del file.' });
+    }
+  }
+
+  const insertQuery = 'INSERT INTO tPost (titoloPost, descrizionePost, pathFotoPost, dataCreazione) VALUES (?, ?, ?, NOW())';
+  con.query(insertQuery, [titoloPost, descrizionePost, pathFotoPost], (err) => {
+    if (err) return res.status(500).json({ message: 'Errore del server.' });
+    return res.status(200).json({ message: 'Post creato con successo.' });
+  });
+});
+
 app.listen(port, () => {
   console.log(`Server avviato su http://localhost:${port}`);
 });
-

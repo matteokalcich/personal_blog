@@ -16,10 +16,6 @@ function Backoffice() {
     navigate('/');
   };
 
-  const handleError = (errorMessage) => {
-    console.error('Errore dal componente RicercaPost:', errorMessage);
-  };
-
 
   return (
 
@@ -34,7 +30,7 @@ function Backoffice() {
           </button>
         </div>
 
-        <RicercaPost onError={handleError} chiamante={'backoffice'}/>
+        <RicercaPost chiamante={'backoffice'}/>
 
 
     </div>

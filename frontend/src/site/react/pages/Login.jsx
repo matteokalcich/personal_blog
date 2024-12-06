@@ -36,7 +36,6 @@ function Login() {
         setCorrectCredentials(false);
       }
     } catch (error) {
-      console.error('Errore durante il login:', error);
       setError('Errore del server.');
     } finally {
       // Rimuovi la classe 'loading' una volta che la risposta è arrivata

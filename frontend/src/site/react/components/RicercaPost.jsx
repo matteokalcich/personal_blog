@@ -1,10 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import PostList from './PostList';
 import '../../styles/index.css';
 
 const RicercaPost = ({ initialAnno = 2024, onError, chiamante }) => {
   const formParolaRef = useRef(null);
   const formAnnoRef = useRef(null);
+  const navigate = useNavigate();
 
   const [parolaDaCercare, setParolaDaCercare] = useState('');
   const [annoScelto, setAnnoScelto] = useState(initialAnno);
@@ -13,12 +15,9 @@ const RicercaPost = ({ initialAnno = 2024, onError, chiamante }) => {
   
   useEffect(() => { //ho fatto in modo che se cambia la variabile annoScelto allora eseguo la query per la ricerca per anno
 
-    console.log('è stato cambiato il valore dell\'anno scelto: ', annoScelto);
-
     filterRequest(parolaDaCercare, annoScelto);
 
-  }, [annoScelto])
-
+  }, [annoScelto]);
 
   // Funzione per eseguire la ricerca dei post
   const filterRequest = async (parolaDaCercare, annoScelto) => {
@@ -36,7 +35,6 @@ const RicercaPost = ({ initialAnno = 2024, onError, chiamante }) => {
       if (response.status === 200) {
         
         setPostList(data.result);
-        console.log('Ecco i risultati della query di ricerca: ', postList);
         setError('');
       } else {
         setError(data.message);
@@ -44,7 +42,6 @@ const RicercaPost = ({ initialAnno = 2024, onError, chiamante }) => {
         if (onError) onError(data.message);
       }
     } catch (error) {
-      console.error('Errore durante il filtro:', error);
       setError('Errore del server.');
       if (onError) onError('Errore del server.');
     }
@@ -56,10 +53,8 @@ const RicercaPost = ({ initialAnno = 2024, onError, chiamante }) => {
     const formId = e.target.id;
 
     if (formId === 'ricercaParola') {
-      console.log('Form Parola inviato');
       filterRequest(parolaDaCercare, annoScelto);
     } else if (formId === 'ricercaAnno') {
-      console.log('Form Anno inviato');
       filterRequest(parolaDaCercare, annoScelto);
     }
   };
@@ -68,57 +63,63 @@ const RicercaPost = ({ initialAnno = 2024, onError, chiamante }) => {
   const backofficeRender = () => {
 
     return (
-      <div className="centroPagina">
-        <form ref={formParolaRef} onSubmit={handleSubmit} className="ricerca" id="ricercaParola">
-          <p id="ricerca">RICERCA</p>
+      <div className='centroPagina'>
+        <form ref={formParolaRef} onSubmit={handleSubmit} className='ricerca' id='ricercaParola'>
+          <p id='ricerca'>RICERCA</p>
           <input
-            type="text"
-            name="parolaDaCercare"
-            id="parolaDaCercare"
+            type='text'
+            name='parolaDaCercare'
+            id='parolaDaCercare'
             onChange={(e) => setParolaDaCercare(e.target.value)}
             value={parolaDaCercare}
           />
-          <button type="submit" name="cerca" id="cercaBtn">
+          <button type='submit' name='cerca' id='cercaBtn'>
             CERCA
           </button>
         </form>
+
+        <button type='button' id='newPostBtn' onClick={() => {
+
+          navigate('/nuovoPost');
+
+        }}>NUOVO POST</button>
   
-        <form ref={formAnnoRef} onSubmit={handleSubmit} className="filtraAnno" id="ricercaAnno">
-          <button type="submit" name="primoPost" className="allDivFiltraAnno firstLastBtn">
+        <form ref={formAnnoRef} onSubmit={handleSubmit} className='filtraAnno' id='ricercaAnno'>
+          <button type='submit' name='primoPost' className='allDivFiltraAnno firstLastBtn'>
             <p>PRIMO</p>
           </button>
           <button
-            type="button"
-            name="precedenteAnnoPost"
-            className="allDivFiltraAnno afterFirstBeforeLastBtn"
+            type='button'
+            name='precedenteAnnoPost'
+            className='allDivFiltraAnno afterFirstBeforeLastBtn'
             onClick={() => setAnnoScelto(annoScelto - 1)}
           >
             <p>Precedente</p>
           </button>
   
-          <div className="allDivFiltraAnno annoCorrente">
+          <div className='allDivFiltraAnno annoCorrente'>
             <p>Anno Scelto: {annoScelto}</p>
           </div>
   
           <button
-            type="button"
-            name="successivoAnnoPost"
-            className="allDivFiltraAnno afterFirstBeforeLastBtn"
+            type='button'
+            name='successivoAnnoPost'
+            className='allDivFiltraAnno afterFirstBeforeLastBtn'
             onClick={() => setAnnoScelto(annoScelto + 1)}
           >
             <p>Successivo</p>
           </button>
   
-          <button type="submit" name="ultimoPost" className="allDivFiltraAnno firstLastBtn">
+          <button type='submit' name='ultimoPost' className='allDivFiltraAnno firstLastBtn'>
             <p>ULTIMO</p>
           </button>
         </form>
   
-        <div className="post">
+        <div className='post'>
           <PostList posts={postList} chiamanteP={chiamante} />
         </div>
   
-        {error && <p className="error">{error}</p>}
+        {error && <p className='error'>{error}</p>}
       </div>
     );
 
@@ -127,57 +128,57 @@ const RicercaPost = ({ initialAnno = 2024, onError, chiamante }) => {
   const frontofficeRender = () => {
 
     return (
-      <div className="centroPagina">
-        <form ref={formParolaRef} onSubmit={handleSubmit} className="ricerca" id="ricercaParola">
-          <p id="ricerca">RICERCA</p>
+      <div className='centroPagina'>
+        <form ref={formParolaRef} onSubmit={handleSubmit} className='ricerca' id='ricercaParola'>
+          <p id='ricerca'>RICERCA</p>
           <input
-            type="text"
-            name="parolaDaCercare"
-            id="parolaDaCercare"
+            type='text'
+            name='parolaDaCercare'
+            id='parolaDaCercare'
             onChange={(e) => setParolaDaCercare(e.target.value)}
             value={parolaDaCercare}
           />
-          <button type="submit" name="cerca" id="cercaBtn">
+          <button type='submit' name='cerca' id='cercaBtn'>
             CERCA
           </button>
         </form>
   
-        <form ref={formAnnoRef} onSubmit={handleSubmit} className="filtraAnno" id="ricercaAnno">
-          <button type="submit" name="primoPost" className="allDivFiltraAnno firstLastBtn">
+        <form ref={formAnnoRef} onSubmit={handleSubmit} className='filtraAnno' id='ricercaAnno'>
+          <button type='submit' name='primoPost' className='allDivFiltraAnno firstLastBtn'>
             <p>PRIMO</p>
           </button>
           <button
-            type="button"
-            name="precedenteAnnoPost"
-            className="allDivFiltraAnno afterFirstBeforeLastBtn"
+            type='button'
+            name='precedenteAnnoPost'
+            className='allDivFiltraAnno afterFirstBeforeLastBtn'
             onClick={() => setAnnoScelto(annoScelto - 1)}
           >
             <p>Precedente</p>
           </button>
   
-          <div className="allDivFiltraAnno annoCorrente">
+          <div className='allDivFiltraAnno annoCorrente'>
             <p>Anno Scelto: {annoScelto}</p>
           </div>
   
           <button
-            type="button"
-            name="successivoAnnoPost"
-            className="allDivFiltraAnno afterFirstBeforeLastBtn"
+            type='button'
+            name='successivoAnnoPost'
+            className='allDivFiltraAnno afterFirstBeforeLastBtn'
             onClick={() => setAnnoScelto(annoScelto + 1)}
           >
             <p>Successivo</p>
           </button>
   
-          <button type="submit" name="ultimoPost" className="allDivFiltraAnno firstLastBtn">
+          <button type='submit' name='ultimoPost' className='allDivFiltraAnno firstLastBtn'>
             <p>ULTIMO</p>
           </button>
         </form>
   
-        <div className="post">
+        <div className='post'>
           <PostList posts={postList} chiamanteP={chiamante}/>
         </div>
   
-        {error && <p className="error">{error}</p>}
+        {error && <p className='error'>{error}</p>}
       </div>
     );
 

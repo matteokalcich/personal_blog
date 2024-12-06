@@ -11,13 +11,12 @@ function PostList({ posts, chiamanteP }) {
       {posts.length > 0 ? (
         posts.map((post) => (
 
-          console.log('Id post test: ', post.idPost),
           <Post
             key={post.idPost}
             id={post.idPost}
             titolo={post.titoloPost}
             dataCreazione={post.dataCreazione}
-            imgSrc={post.pathFotoPost}
+            imgSrc={`http://localhost:3000/${post.pathFotoPost}`}
             descrizione={post.descrizionePost}
             chiamante={chiamanteP}
           />

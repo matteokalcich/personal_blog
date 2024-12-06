@@ -5,6 +5,7 @@ import Frontoffice from '../pages/Frontoffice';
 import Backoffice from '../pages/Backoffice';
 import DettagliPost from '../pages/DettagliPost';
 import ModificaPost from '../pages/ModificaPost';
+import CreazionePost from '../pages/CreazionePost';
 
 function Rotte() {
   return (
@@ -15,6 +16,7 @@ function Rotte() {
         <Route path='/backoffice' element={<Backoffice />} />
         <Route path='/dettagliPost' element={<DettagliPost />} />
         <Route path='/modificaPost' element={<ModificaPost />} />
+        <Route path='/nuovoPost' element={<CreazionePost />} />
       </Routes>
     </Router>
   );

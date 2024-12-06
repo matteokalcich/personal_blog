@@ -150,6 +150,22 @@ body {
     border-radius: 0.8rem;
     box-shadow: 0 0.5rem 0.8rem rgba(0, 0, 0, 0.1);
   }
+
+  .corpoPostDB{
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 20%;
+  }
+
+  .immaginePostDB{
+
+    display: block;
+    width: 20%;
+    height: auto;
+  }
   
   /* Responsive per schermi piccoli */
   @media (max-width: 576px) {

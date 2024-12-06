@@ -26,17 +26,14 @@ function DettagliPost() {
 
         if (response.status === 200) {
 
-            console.log('Test: ', data.result);
             setResultRequest(data.result);  // Aggiorna lo stato con i risultati della query
 
             
         } else {
-            console.log('Error: ', data.message);
             setError(data.message);  // Gestisci l'errore
             setResultRequest('');
         }
         } catch (error) {
-        console.error('Errore durante il filtro:', error);
         setError('Errore del server.');
         }
     };

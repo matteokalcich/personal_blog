@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import Header from '../components/Header';
 import RicercaPost from '../components/RicercaPost';
 import '../../styles/index.css';
+import axios from 'axios';
 
 function ModificaPost({username}) {
 
@@ -10,53 +11,48 @@ function ModificaPost({username}) {
     const location = useLocation();
     const id = location.state ? location.state.id : null;; // Estrae id dallo stato, e gestisce il caso in cui sia undefined
 
-
+    const [file, setFile] = useState(null); //per l'immagine
     const [titoloPostInsert, setTitoloPostInsert] = useState('');
     const [descrizionePostInsert, setDescrizionePostInsert] = useState('');
-    const [immaginePostInsert, setImmaginePostInsert] = useState('');
-    const [error, setError] = useState('');
+    const [, setError] = useState('');
+    const [, setMessage] = useState('');
 
+    const filterRequestNew = async (elimina) => {
+        const formData = new FormData();
     
-
-    // Funzione per eseguire la ricerca dei post
-    const filterRequest = async (elimina) => {
-
+        formData.append('idPost', id);
+        formData.append('titoloPost', titoloPostInsert);
+        formData.append('descrizionePost', descrizionePostInsert);
+        formData.append('elimina', elimina);
+        
+        if (file) {
+            formData.append('file', file); // Aggiungi il file se presente
+        }
+    
         try {
-            const response = await fetch(
-                `http://localhost:3000/api/changePost`,
+            const response = await axios.post(
+                `http://localhost:3000/api/changePostNew`,
+                formData,
                 {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    
-                    body: JSON.stringify({ 
-                        idPost: id, 
-                        titoloPost: titoloPostInsert, 
-                        descrizionePost: descrizionePostInsert, 
-                        pathFotoPost: immaginePostInsert, 
-                        elimina 
-                    }),
-                    
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
                 }
             );
-
-            const data = await response.json();
-
+    
+            const data = response.data;
+    
             if (response.status === 200) {
-
                 setError('');
-                
+                setMessage('Operazione completata con successo.');
             } else {
-
-                setError(data.message);
+                setError(data.message || 'Errore sconosciuto.');
             }
-
         } catch (error) {
-
-            console.error('Errore durante il filtro:', error);
             setError('Errore del server.');
-
         }
     };
+    
 
     const handleSubmit = async (e) => {
 
@@ -70,7 +66,8 @@ function ModificaPost({username}) {
 
             case 'modifica':
 
-                filterRequest(false);
+
+                filterRequestNew(false);
 
                 navigate('/backoffice');
 
@@ -79,7 +76,7 @@ function ModificaPost({username}) {
 
             case 'elimina':
 
-                filterRequest(true);
+                filterRequestNew(true);
 
                 navigate('/backoffice');
 
@@ -99,30 +96,36 @@ function ModificaPost({username}) {
         
             <Header />
 
-            <div className="welcome">
+            <div className='welcome'>
                 <h2>Ciao {username}, sei pronto a modificare/eliminare il post?</h2>
-                <button type="button" onClick={loginRedirect}>
+                <button type='button' onClick={loginRedirect}>
                     LOGOUT
                 </button>
             </div>
 
-            <form action="" onSubmit={handleSubmit}>
+            <form action='' onSubmit={handleSubmit} encType='multipart/form-data'>
 
-                <input type="text" name="titoloPostToInsert" placeholder="Titolo" onChange={(e) => {
+                <input type='text' name='titoloPostToInsert' placeholder='Titolo' onChange={(e) => {
 
                     setTitoloPostInsert(e.target.value);
 
                 }}/>
-                <textarea name="descrizionePostToInsert" placeholder="Descrizione" onChange={(e) => {
+                <textarea name='descrizionePostToInsert' placeholder='Descrizione' onChange={(e) => {
 
                     setDescrizionePostInsert(e.target.value);
 
                 }}/>
 
-                <input type="file" name="immaginePostToInsert" />
-                <button type="submit" name="Annulla" onClick={() => handleClick('annulla')}>Annulla Modifiche</button>
-                <button type="submit" name="modificaPost" onClick={() => handleClick('modifica')}>Modifica Post</button>
-                <button type="submit" name="eliminaPost" onClick={() => handleClick('elimina')}>Elimina Post</button>
+                <input type='file' name='immaginePostToInsert' id='file'
+
+                    onChange={(e) => {
+
+                        setFile(e.target.files[0]);
+                    }}
+                />
+                <button type='submit' name='Annulla' onClick={() => handleClick('annulla')}>Annulla Modifiche</button>
+                <button type='submit' name='modificaPost' onClick={() => handleClick('modifica')}>Modifica Post</button>
+                <button type='submit' name='eliminaPost' onClick={() => handleClick('elimina')}>Elimina Post</button>
 
             </form>
         

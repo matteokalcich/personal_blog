@@ -12,9 +12,6 @@ function Frontoffice() {
     navigate('/login');
   };
 
-  const handleError = (errorMessage) => {
-    console.error('Errore dal componente RicercaPost:', errorMessage);
-  };
 
   return (
     <>
@@ -37,7 +34,7 @@ function Frontoffice() {
           </p>
         </div>
 
-        <RicercaPost onError={handleError} chiamante={'frontoffice'} />
+        <RicercaPost chiamante={'frontoffice'} />
       </div>
     </>
   );
