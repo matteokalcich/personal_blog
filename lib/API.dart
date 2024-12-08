@@ -9,7 +9,7 @@ class API {
 
   List<Post> posts = [];
 
-  Future<Post?> allPosts() async {
+  Future<List<Post>?> allPosts() async {
     final url = Uri.parse(
         'http://192.168.1.8:3000/api/filterRequest?ricercaParola=&ricercaAnno=2024'); // Assicurati che il backend sia raggiungibile
 
@@ -26,17 +26,16 @@ class API {
 
         posts = Post.fromJson(data);
 
-        for (var post in posts) {
-          print('Ecco il post con id: ' + post.id.toString() + ' e titolo: '+ post.titolo);
-        }
+        return posts;
+        
       } else {
         print('Errore: ${response.statusCode}');
         responseMessage = 'Errore: ${response.statusCode}';
+        return null;
       }
     } catch (e) {
       print('Errore: $e');
       responseMessage = 'Errore: $e';
-    } finally {
       return null;
     }
   }
