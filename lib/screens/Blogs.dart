@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:personal_blog/API.dart';
 import 'package:personal_blog/Post.dart';
 import 'package:personal_blog/SearchPost.dart';
+import 'package:personal_blog/screens/DettagliPost.dart';
 
 class Blogs extends StatefulWidget {
   const Blogs({super.key});
@@ -15,7 +16,6 @@ class Blogs extends StatefulWidget {
 
 class _BlogsState extends State<Blogs> {
   API api = API();
-  String responseMessage = "";
   List<Post>? posts = [];
 
   fetchPosts() async {
@@ -75,29 +75,37 @@ class _BlogsState extends State<Blogs> {
                         itemCount: posts!.length,
                         itemBuilder: (context, index) {
                           final post = posts![index];
-                          return Card(
-                            margin: const EdgeInsets.symmetric(vertical: 8),
-                            child: Column(
-                              children: [
-                                ListTile(
-                                  leading: Text(post.dataCreazione),
-                                  title: Text(post.titolo),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Column(
-                                    children: [
-                                      Image.network(
-                                          'http://192.168.1.8:3000/${post.pathRemoteImg}'),
-                                      const SizedBox(
-                                        height: 30,
-                                      ),
-                                      Text(post.descrizione),
-                                    ],
+                          return GestureDetector(
+                            child: Card(
+                              margin: const EdgeInsets.symmetric(vertical: 8),
+                              child: Column(
+                                children: [
+                                  ListTile(
+                                    leading: Text(post.dataCreazione),
+                                    title: Text(post.titolo),
                                   ),
-                                )
-                              ],
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Column(
+                                      children: [
+                                        Image.network(
+                                            'http://192.168.1.8:3000/${post.pathRemoteImg}'),
+                                        const SizedBox(
+                                          height: 30,
+                                        ),
+                                        Text(post.descrizione),
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
+                            onTap: () {
+                              Navigator.of(context).push(
+                                  MaterialPageRoute<void>(
+                                      builder: (BuildContext context) =>
+                                          DettagliPost(post: post)));
+                            },
                           );
                         },
                       );
