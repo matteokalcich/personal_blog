@@ -15,7 +15,6 @@ class Post {
   });
 
   static fromJson(Map<String, dynamic> json) {
-
     for (var item in json['result']) {
       posts.add(Post(
         id: item['idPost'],
