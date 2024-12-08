@@ -15,30 +15,13 @@ class Post {
   });
 
   static fromJson(Map<String, dynamic> json) {
-    // return switch (json['result']) {
-    //   {
-    //     'idPost': int id,
-    //     'titoloPost': String titolo,
-    //     'descrizionePost': String descrizione,
-    //     'dataCreazione': var dataCreazione,
-    //     'pathFotoPost': String pathRemoteImg,
-    //   } =>
-    //     Post(
-    //       id: id,
-    //       titolo: titolo,
-    //       descrizione: descrizione,
-    //       dataCreazione: dataCreazione,
-    //       pathRemoteImg: pathRemoteImg,
-    //     ),
-    //   _ => throw const FormatException('Failed to load the Post'),
-    // };
 
     for (var item in json['result']) {
       posts.add(Post(
         id: item['idPost'],
         titolo: item['titoloPost'],
         descrizione: item['descrizionePost'],
-        dataCreazione: item['dataCreazione'],
+        dataCreazione: item['dataCreazione'].split('T')[0],
         pathRemoteImg: item['pathFotoPost'],
       ));
     }
