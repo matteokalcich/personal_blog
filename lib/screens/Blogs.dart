@@ -66,11 +66,6 @@ class _BlogsState extends State<Blogs> {
               },
               icon: const Icon(Icons.account_circle_rounded),
             ),
-            IconButton(
-                onPressed: () async {
-                  await _handleRefresh();
-                },
-                icon: Icon(Icons.refresh))
           ],
         ),
       ),
