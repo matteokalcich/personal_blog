@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-
 import 'package:personal_blog/API.dart';
-import 'package:personal_blog/Logged.dart';
 import 'package:personal_blog/Post.dart';
 import 'package:personal_blog/SearchPost.dart';
 import 'package:personal_blog/screens/Account.dart';
@@ -17,23 +15,29 @@ class Blogs extends StatefulWidget {
 class _BlogsState extends State<Blogs> {
   API api = API();
   List<Post>? posts = [];
-  Logged logged = Logged();
 
-  fetchPosts() async {
-    List<Post>? newPosts = await api.allPosts();
-
-    if (posts != null || posts!.isNotEmpty) {
-      if (newPosts != null) {
-        // Aggiungi solo i post che non sono già presenti
-        for (var post in newPosts) {
-          if (!posts!.any((existingPost) => existingPost.id == post.id)) {
-            posts!.add(post);
-          }
-        }
-      }
-    } else {
-      posts = List.from(newPosts!);
+  Future<void> fetchPosts() async {
+    try {
+      List<Post>? newPosts = await api.allPosts();
+      setState(() {
+        posts = newPosts ?? [];
+      });
+    } catch (e) {
+      debugPrint('Error fetching posts: $e');
+      setState(() {
+        posts = [];
+      });
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchPosts();
+  }
+
+  Future<void> _handleRefresh() async {
+    await fetchPosts();
   }
 
   @override
@@ -62,106 +66,65 @@ class _BlogsState extends State<Blogs> {
               },
               icon: const Icon(Icons.account_circle_rounded),
             ),
+            IconButton(
+                onPressed: () async {
+                  await _handleRefresh();
+                },
+                icon: Icon(Icons.refresh))
           ],
         ),
       ),
-      body: const Center(
-        child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 2, horizontal: 20),
-          child: Column(
-            children: [
-              Expanded(child: FrontOffice()),
-            ],
-          ),
-        ),
+      body: RefreshIndicator(
+        onRefresh: _handleRefresh,
+        child: posts == null
+            ? const Center(child: CircularProgressIndicator())
+            : posts!.isEmpty
+                ? const Center(child: Text('No posts available'))
+                : ListView.builder(
+                    itemCount: posts!.length,
+                    itemBuilder: (context, index) {
+                      final post = posts![index];
+                      return PostCard(post: post);
+                    },
+                  ),
       ),
     );
   }
 }
 
-class FrontOffice extends StatefulWidget {
-  const FrontOffice({super.key});
+class PostCard extends StatelessWidget {
+  final Post post;
 
-  @override
-  _FrontOfficeState createState() => _FrontOfficeState();
-}
-
-class _FrontOfficeState extends State<FrontOffice> {
-  API api = API();
-  List<Post>? posts = [];
-  Logged logged = Logged();
-
-  fetchPosts() async {
-    List<Post>? newPosts = await api.allPosts();
-
-    if (posts != null || posts!.isNotEmpty) {
-      if (newPosts != null) {
-        // Aggiungi solo i post che non sono già presenti
-        for (var post in newPosts) {
-          if (!posts!.any((existingPost) => existingPost.id == post.id)) {
-            posts!.add(post);
-          }
-        }
-      }
-    } else {
-      posts = List.from(newPosts!);
-    }
-  }
+  const PostCard({super.key, required this.post});
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: fetchPosts(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const CircularProgressIndicator.adaptive();
-        } else if (snapshot.hasError) {
-          return Text(
-            snapshot.error.toString(),
-            style: const TextStyle(
-              color: Colors.red,
+    return Card(
+      margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+      child: InkWell(
+        onTap: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => DettagliPost(post: post),
             ),
           );
-        } else {
-          return ListView.builder(
-            itemCount: posts!.length,
-            itemBuilder: (context, index) {
-              final post = posts![index];
-              return GestureDetector(
-                child: Card(
-                  margin: const EdgeInsets.symmetric(vertical: 8),
-                  child: Column(
-                    children: [
-                      ListTile(
-                        leading: Text(post.dataCreazione),
-                        title: Text(post.titolo),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          children: [
-                            Image.network(
-                                'http://192.168.1.6:3000/${post.pathRemoteImg}'),
-                            const SizedBox(
-                              height: 30,
-                            ),
-                            Text(post.descrizione),
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-                onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute<void>(
-                      builder: (BuildContext context) =>
-                          DettagliPost(post: post)));
-                },
-              );
-            },
-          );
-        }
-      },
+        },
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ListTile(
+              title: Text(post.titolo),
+              subtitle: Text(post.dataCreazione),
+            ),
+            if (post.pathRemoteImg.isNotEmpty)
+              Image.network('http://192.168.1.3:3000/${post.pathRemoteImg}'),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(post.descrizione),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

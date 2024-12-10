@@ -13,7 +13,7 @@ class API {
 
   void editPost(Post post, String nuovoTitolo, String nuovaDescrizione,
       bool elimina, nuovoFile) async {
-    const url = 'http://192.168.1.6:3000/api/changePostNew';
+    const url = 'http://192.168.1.3:3000/api/changePostNew';
 
     Dio dio = Dio();
     FormData formData = FormData.fromMap({
@@ -40,7 +40,7 @@ class API {
   }
 
   // void editPost(Post post, bool elimina, file) async {
-  //   final url = Uri.parse('http://192.168.1.6:3000/api/changePostNew');
+  //   final url = Uri.parse('http://192.168.1.3:3000/api/changePostNew');
 
   //   try {
   //     Map<String, String> body = {};
@@ -68,8 +68,10 @@ class API {
   // }
 
   Future<List<Post>?> allPosts() async {
+    posts.clear();
+
     final url = Uri.parse(
-        'http://192.168.1.6:3000/api/filterRequest?ricercaParola=&ricercaAnno=2024');
+        'http://192.168.1.3:3000/api/filterRequest?ricercaParola=&ricercaAnno=2024');
 
     try {
       final response = await http.get(url);
