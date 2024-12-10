@@ -26,7 +26,7 @@ class _DettagliPostState extends State<DettagliPost> {
                 Text(widget.post.titolo),
               ],
             ),
-            Image.network('http://192.168.1.6:3000/${widget.post.pathRemoteImg}'),
+            Image.network('http://192.168.1.3:3000/${widget.post.pathRemoteImg}'),
             Text(widget.post.descrizione),
           ],
         ),

@@ -93,7 +93,7 @@ class _AccountState extends State<Account> {
                           child: Column(
                             children: [
                               Image.network(
-                                  'http://192.168.1.6:3000/${post.pathRemoteImg}'),
+                                  'http://192.168.1.3:3000/${post.pathRemoteImg}'),
                               const SizedBox(
                                 height: 30,
                               ),
