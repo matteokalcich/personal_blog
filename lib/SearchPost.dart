@@ -11,7 +11,6 @@ class SearchPost extends SearchDelegate {
   }
 
 
-
   @override
   List<Widget>? buildActions(BuildContext context) {
     return [

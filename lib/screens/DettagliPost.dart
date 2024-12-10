@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:personal_blog/API.dart';
 import 'package:personal_blog/Post.dart';
-import 'package:personal_blog/SearchPost.dart';
 
 class DettagliPost extends StatefulWidget {
   Post post;
@@ -28,7 +26,7 @@ class _DettagliPostState extends State<DettagliPost> {
                 Text(widget.post.titolo),
               ],
             ),
-            Image.network('http://192.168.1.8:3000/${widget.post.pathRemoteImg}'),
+            Image.network('http://192.168.1.6:3000/${widget.post.pathRemoteImg}'),
             Text(widget.post.descrizione),
           ],
         ),

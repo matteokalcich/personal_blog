@@ -46,7 +46,7 @@ class Settings extends StatelessWidget {
               ),
             ],
           ),
-          Column(
+          const Column(
 
             children: [
 

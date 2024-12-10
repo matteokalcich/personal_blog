@@ -38,6 +38,18 @@
       "languageVersion": "3.1"
     },
     {
+      "name": "dio",
+      "rootUri": "file:///Users/matteo/.pub-cache/hosted/pub.dev/dio-5.7.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
+      "name": "dio_web_adapter",
+      "rootUri": "file:///Users/matteo/.pub-cache/hosted/pub.dev/dio_web_adapter-2.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.3"
+    },
+    {
       "name": "fake_async",
       "rootUri": "file:///Users/matteo/.pub-cache/hosted/pub.dev/fake_async-1.3.1",
       "packageUri": "lib/",
@@ -194,7 +206,7 @@
       "languageVersion": "3.5"
     }
   ],
-  "generated": "2024-12-08T16:09:20.289522Z",
+  "generated": "2024-12-10T19:57:11.839667Z",
   "generator": "pub",
   "generatorVersion": "3.5.4",
   "flutterRoot": "file:///Users/matteo/development/flutter",

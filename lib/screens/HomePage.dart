@@ -24,6 +24,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
 
       
+      
       body: body[currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: currentIndex,
